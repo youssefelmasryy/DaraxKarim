@@ -11,10 +11,16 @@
             margin: 0;
             padding: 0;
             font-family: "STIX Two Text", serif;
-            position: relative;
+            position: relative; /* Added for potential absolute positioning context */
             color: white;
             min-width: fit-content;
             overflow-x: hidden;
+        }
+
+        .image-wrapper {
+            position: relative; /* Container for the image and the absolute button */
+            width: 100%;
+            line-height: 0; /* To remove any space below the image if it's inline-block */
         }
         
         .background-img {
@@ -23,13 +29,33 @@
             max-width: 100%;
             height: auto;
         }
+
+        .image-rsvp-button {
+            position: absolute;
+            /*
+            IMPORTANT: Adjust these 'top', 'left', 'width', and 'height' values
+            to accurately position the button over the "RSVP" text in your BACKGROUND image.
+            These are percentages relative to the '.image-wrapper'.
+            */
+            top: 87%;    /* Estimated: Percentage from the top of the image wrapper */
+            left: 35%;   /* Estimated: Percentage from the left of the image wrapper */
+            width: 30%;  /* Estimated: Percentage width of the RSVP area */
+            height: 5%;  /* Estimated: Percentage height of the RSVP area */
+            background-color: rgba(0, 0, 0, 0); /* Fully transparent. Use color for debugging. */
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            z-index: 5; /* Above the image, below the header content and popup */
+            /* For debugging positioning, uncomment the line below: */
+            /* border: 1px dashed lime; */
+        }
         
         .content {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 10;
+            z-index: 10; /* Ensures header buttons are above the image-rsvp-button if they overlap */
         }
         
         .header {
@@ -97,7 +123,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
-            z-index: 1000;
+            z-index: 1000; /* Highest z-index for the popup */
             justify-content: center;
             align-items: center;
         }
@@ -106,12 +132,15 @@
             background: white;
             width: 90%;
             max-width: 600px;
-            max-height: 90vh;
+            /* MODIFIED: Changed max-height to height to make the popup consistently taller */
+            height: 90vh; 
             border-radius: 10px;
-            overflow: hidden;
+            overflow: hidden; /* Keeps content like iframe within the bounds */
             color: #333;
             box-shadow: 0 5px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s;
+            display: flex; /* Use flex to structure header and iframe */
+            flex-direction: column; /* Stack header and iframe vertically */
         }
         
         .popup-header {
@@ -120,26 +149,32 @@
             padding: 15px;
             text-align: center;
             font-size: 1.5rem;
+            position: relative; /* For positioning the close button within */
+            flex-shrink: 0; /* Prevent header from shrinking if iframe content is large */
         }
         
         .popup-iframe {
             width: 100%;
-            height: 70vh;
+            flex-grow: 1; /* Allows iframe to take available vertical space */
             border: none;
+            /* Added min-height to prevent iframe from becoming too small if content is minimal initially */
+            min-height: 100px; /* Adjust as needed, ensures iframe has some initial height */
         }
         
         .close-btn {
             position: absolute;
-            top: 10px;
+            top: 50%; /* Vertically center */
             right: 20px;
+            transform: translateY(-50%); /* Adjust for exact vertical centering */
             font-size: 2rem;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
+            line-height: 1; /* Ensure consistent height */
         }
         
         .close-btn:hover {
-            transform: rotate(90deg);
+            transform: translateY(-50%) rotate(90deg); /* Maintain centering on hover */
         }
         
         @keyframes fadeIn {
@@ -151,31 +186,43 @@
         @media (max-width: 768px) {
             .popup-content {
                 width: 95%;
+                /* Ensure height is also responsive if needed, 90vh is already viewport relative */
+                height: 90vh; /* Or adjust to, e.g., 95vh for smaller screens if preferred */
+            }
+             .popup-header {
+                font-size: 1.2rem;
+                padding: 10px;
+            }
+            .close-btn {
+                font-size: 1.8rem;
+                right: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <img src="daraxkarim.jpg" alt="Background" class="background-img">
+    <div class="image-wrapper">
+        <img src="daraxkarim.jpg" alt="Background Invitation" class="background-img"
+             onerror="this.onerror=null; this.src='https://placehold.co/1200x1800/f0f0f0/c0c0c0?text=Invitation+Image+Not+Available'; this.style.aspectRatio='2/3';">
+        <button class="image-rsvp-button" id="imageRsvpButton" aria-label="RSVP via image"></button>
+    </div>
     
     <div class="content">
         <header class="header">
             <div class="button-container">
-                <a>
-                <button class="header-button" onclick="openRSVP()">RSVP</button>
+                <a> <button class="header-button" onclick="openRSVP()">RSVP</button>
                 </a>
                 <span class="separator">|</span>
                 <a href="https://pin.it/1y1tLBFJF" target="_blank">
                     <button class="header-button">INSPO</button>
                 </a>
                 <span class="separator">|</span>
-                <a href="https://maps.app.goo.gl/oUejTZVnidmJf34J6" target="_blank">
-                    <button class="header-button">LOCATION</button>
+                <a href="https://maps.app.goo.gl/oUejTZVnidmJf34J6" target="_blank"> <button class="header-button">LOCATION</button>
                 </a>
             </div>
         </header>
     </div>
-        <!-- Popup HTML -->
+
     <div id="rsvpPopup" class="popup-overlay">
         <div class="popup-content">
             <div class="popup-header">
@@ -187,26 +234,50 @@
                     frameborder="0" 
                     marginheight="0" 
                     marginwidth="0">
-                Loading...
+                Loading…
             </iframe>
         </div>
     </div>
+
     <script>
         function openRSVP() {
             document.getElementById('rsvpPopup').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
         
         function closeRSVP() {
             document.getElementById('rsvpPopup').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            document.body.style.overflow = 'auto'; // Re-enable background scrolling
         }
         
-        // Close when clicking outside the form
+        // Close popup when clicking outside the form content
         window.onclick = function(event) {
-            if (event.target == document.getElementById('rsvpPopup')) {
+            const rsvpPopup = document.getElementById('rsvpPopup');
+            if (event.target == rsvpPopup) {
                 closeRSVP();
             }
+        }
+
+        // Get the new image RSVP button element
+        const imageRsvpButton = document.getElementById('imageRsvpButton');
+
+        // Add an event listener for the 'click' event on the new image button
+        if (imageRsvpButton) {
+            imageRsvpButton.addEventListener('click', function() {
+                openRSVP(); // Call the existing function to open the popup
+                console.log('Image RSVP button was clicked.'); // For debugging
+            });
+        }
+
+        // Image loading check for the main background image (optional but good practice)
+        const mainImageElement = document.querySelector('.background-img');
+        if (mainImageElement) {
+            mainImageElement.onload = () => {
+                console.log('Background image loaded successfully.');
+                // You could potentially refine button position here if needed,
+                // but percentage-based positioning should adapt.
+            };
+            // The onerror is handled inline in the img tag now.
         }
     </script>
 </body>
