@@ -11,16 +11,17 @@
             margin: 0;
             padding: 0;
             font-family: "STIX Two Text", serif;
-            position: relative; /* Added for potential absolute positioning context */
+            position: relative; 
             color: white;
             min-width: fit-content;
             overflow-x: hidden;
+            background-color: #fff; /* Fallback page background */
         }
 
         .image-wrapper {
-            position: relative; /* Container for the image and the absolute button */
+            position: relative; /* Crucial for absolute positioning of child elements */
             width: 100%;
-            line-height: 0; /* To remove any space below the image if it's inline-block */
+            line-height: 0; /* Removes potential space below image */
         }
         
         .background-img {
@@ -30,32 +31,88 @@
             height: auto;
         }
 
+        /* This is the original transparent button over the RSVP area of the main image */
         .image-rsvp-button {
             position: absolute;
-            /*
-            IMPORTANT: Adjust these 'top', 'left', 'width', and 'height' values
-            to accurately position the button over the "RSVP" text in your BACKGROUND image.
-            These are percentages relative to the '.image-wrapper'.
-            */
-            top: 87%;    /* Estimated: Percentage from the top of the image wrapper */
-            left: 35%;   /* Estimated: Percentage from the left of the image wrapper */
-            width: 30%;  /* Estimated: Percentage width of the RSVP area */
-            height: 5%;  /* Estimated: Percentage height of the RSVP area */
-            background-color: rgba(0, 0, 0, 0); /* Fully transparent. Use color for debugging. */
+            /* Adjust these as per your main image's RSVP location */
+            top: 87%;    
+            left: 35%;   
+            width: 30%;  
+            height: 5%; 
+            background-color: rgba(0, 0, 0, 0); 
             border: none;
             padding: 0;
             cursor: pointer;
-            z-index: 5; /* Above the image, below the header content and popup */
-            /* For debugging positioning, uncomment the line below: */
-            /* border: 1px dashed lime; */
+            z-index: 5; 
+            /* For debugging positioning: */
+            /* border: 1px dashed red;  */
+        }
+
+        /* NEW: Styles for the embedded image (IMG-12345.jpg) */
+        #somabayDetailImage {
+            position: absolute;
+            /*
+            IMPORTANT: Adjust 'top', 'left', and 'width' to position this image
+            correctly below "Somabay, Egypt" on your main invitation image.
+            */
+            top: 21.5%; /* Estimated: Percentage from the top of the image-wrapper. Adjust this! */
+            left: 50%; /* Centers the image horizontally */
+            transform: translateX(-50%);
+            width: 30%; /* Estimated: Width relative to image-wrapper. Adjust this! */
+            max-width: 450px; /* Native max width of IMG-12345.jpg */
+            height: auto; /* Maintain aspect ratio */
+            cursor: pointer; /* Indicates it's clickable */
+            z-index: 6; /* Ensure it's above background, potentially same level as other button */
+        
+            /* For debugging positioning: */
+            /* border: 1px dashed blue; */
+        }
+
+                /* NEW: Common style for custom on-image buttons */
+        .image-custom-button {
+            position: absolute;
+            background-color: #cf8a77;
+            color: black;
+            font-family: "STIX Two Text", serif;
+            padding: 6px 12px; /* Adjust padding for size */
+            border: 1px solid #a96a59;  /* Darker shade for frame */
+            border-radius: 4px; /* Rectangular with slightly rounded corners */
+            text-align: center;
+            font-size: 1rem; /* Adjust font size as needed */
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 7; /* Above other image elements, below main header */
+            /* For debugging positioning: */
+            /* border: 1px dashed green; */
+        }
+
+        /* NEW: Specific positioning for Sobar Rooftop button */
+        #sobarButton {
+            /* IMPORTANT: Adjust top, left, width for precise placement */
+            top: 49%; /* Estimated: Percentage from the top. Adjust! */
+            left: 50%; /* Example: Center it. Adjust! */
+            transform: translateX(-50%);
+            width: auto; /* Let padding and content define width, or set a fixed/percentage width */
+            min-width: 100px; /* Example minimum width */
+        }
+
+        /* NEW: Specific positioning for Dress Code button */
+        #dressCodeButton {
+            /* IMPORTANT: Adjust top, left, width for precise placement */
+            top: 75%; /* Estimated: Percentage from the top. Adjust! */
+            left: 50%; /* Example: Center it. Adjust! */
+            transform: translateX(-50%);
+            width: auto; /* Let padding and content define width, or set a fixed/percentage width */
+            min-width: 100px; /* Example minimum width */
         }
         
-        .content {
+        .content { /* This is for the header buttons, positioned over the top of the image-wrapper */
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 10; /* Ensures header buttons are above the image-rsvp-button if they overlap */
+            z-index: 10; 
         }
         
         .header {
@@ -78,10 +135,10 @@
             color: #c66637;
             border: none;
             padding: 8px 8px;
-            font-weight: 700; /* Extra bold */
+            font-weight: 700; 
             font-family: "STIX Two Text", serif;
             font-size: 1rem;
-            text-transform: uppercase; /* All caps */
+            text-transform: uppercase; 
             cursor: pointer;
             transition: all 0.3s ease;
             letter-spacing: 0.8px;
@@ -103,6 +160,9 @@
                 font-size: 0.9rem;
                 padding: 6px 3px;
             }
+            #somabayDetailImage {
+                width: 75%; /* Adjust width for smaller screens if needed */
+            }
         }
         
         @media (max-width: 360px) {
@@ -123,7 +183,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
-            z-index: 1000; /* Highest z-index for the popup */
+            z-index: 1000; 
             justify-content: center;
             align-items: center;
         }
@@ -132,15 +192,14 @@
             background: white;
             width: 90%;
             max-width: 600px;
-            /* MODIFIED: Changed max-height to height to make the popup consistently taller */
             height: 90vh; 
             border-radius: 10px;
-            overflow: hidden; /* Keeps content like iframe within the bounds */
+            overflow: hidden; 
             color: #333;
             box-shadow: 0 5px 30px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s;
-            display: flex; /* Use flex to structure header and iframe */
-            flex-direction: column; /* Stack header and iframe vertically */
+            display: flex; 
+            flex-direction: column; 
         }
         
         .popup-header {
@@ -149,32 +208,31 @@
             padding: 15px;
             text-align: center;
             font-size: 1.5rem;
-            position: relative; /* For positioning the close button within */
-            flex-shrink: 0; /* Prevent header from shrinking if iframe content is large */
+            position: relative; 
+            flex-shrink: 0; 
         }
         
         .popup-iframe {
             width: 100%;
-            flex-grow: 1; /* Allows iframe to take available vertical space */
+            flex-grow: 1; 
             border: none;
-            /* Added min-height to prevent iframe from becoming too small if content is minimal initially */
-            min-height: 100px; /* Adjust as needed, ensures iframe has some initial height */
+            min-height: 100px; 
         }
         
         .close-btn {
             position: absolute;
-            top: 50%; /* Vertically center */
+            top: 50%; 
             right: 20px;
-            transform: translateY(-50%); /* Adjust for exact vertical centering */
+            transform: translateY(-50%); 
             font-size: 2rem;
             color: white;
             cursor: pointer;
             transition: all 0.3s;
-            line-height: 1; /* Ensure consistent height */
+            line-height: 1; 
         }
         
         .close-btn:hover {
-            transform: translateY(-50%) rotate(90deg); /* Maintain centering on hover */
+            transform: translateY(-50%) rotate(90deg); 
         }
         
         @keyframes fadeIn {
@@ -182,12 +240,10 @@
             to { opacity: 1; transform: scale(1); }
         }
         
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .popup-content {
                 width: 95%;
-                /* Ensure height is also responsive if needed, 90vh is already viewport relative */
-                height: 90vh; /* Or adjust to, e.g., 95vh for smaller screens if preferred */
+                height: 90vh; 
             }
              .popup-header {
                 font-size: 1.2rem;
@@ -204,8 +260,23 @@
     <div class="image-wrapper">
         <img src="daraxkarim.jpg" alt="Background Invitation" class="background-img"
              onerror="this.onerror=null; this.src='https://placehold.co/1200x1800/f0f0f0/c0c0c0?text=Invitation+Image+Not+Available'; this.style.aspectRatio='2/3';">
+        
         <button class="image-rsvp-button" id="imageRsvpButton" aria-label="RSVP via image"></button>
-    </div>
+
+        <img src="KADABRA-02.png" 
+             alt="More Details" 
+             id="somabayDetailImage"
+             onclick="openRSVP()"
+             onerror="this.onerror=null; this.src='https://placehold.co/733x172/EAE6E1/A08C7D?text=Details+Not+Found'; this.style.aspectRatio='733/172';">
+
+                     <button id="sobarButton" class="image-custom-button" onclick="window.location.href='https://pin.it/1y1tLBFJF';">
+Check for Inspo        </button>
+
+        <button id="dressCodeButton" class="image-custom-button" onclick="window.location.href='https://maps.app.goo.gl/oUejTZVnidmJf34J6';">
+            Check for Location
+        </button>
+    
+            </div>
     
     <div class="content">
         <header class="header">
@@ -229,7 +300,7 @@
                 Tell Us You're Coming!
                 <span class="close-btn" onclick="closeRSVP()">×</span>
             </div>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdb8PvUubryWYId8T4mMjn6yetJy6sAx0bIeayqciaip_QiSw/viewform?hl=en&embedded=true" 
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdb8PvUubryWYId8T4mMjn6yetJy6sAx0bIeayqciaip_QiSw/viewform?embedded=true" 
                     class="popup-iframe" 
                     frameborder="0" 
                     marginheight="0" 
@@ -242,15 +313,14 @@
     <script>
         function openRSVP() {
             document.getElementById('rsvpPopup').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden'; 
         }
         
         function closeRSVP() {
             document.getElementById('rsvpPopup').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable background scrolling
+            document.body.style.overflow = 'auto'; 
         }
         
-        // Close popup when clicking outside the form content
         window.onclick = function(event) {
             const rsvpPopup = document.getElementById('rsvpPopup');
             if (event.target == rsvpPopup) {
@@ -258,26 +328,29 @@
             }
         }
 
-        // Get the new image RSVP button element
+        // Event listener for the original image RSVP button
         const imageRsvpButton = document.getElementById('imageRsvpButton');
-
-        // Add an event listener for the 'click' event on the new image button
         if (imageRsvpButton) {
             imageRsvpButton.addEventListener('click', function() {
-                openRSVP(); // Call the existing function to open the popup
-                console.log('Image RSVP button was clicked.'); // For debugging
+                openRSVP(); 
+                console.log('Original image RSVP button was clicked.'); 
             });
         }
+        // The new #somabayDetailImage uses an inline onclick="openRSVP()" so no separate listener is strictly needed here for it.
 
-        // Image loading check for the main background image (optional but good practice)
+        // Image loading checks (optional but good practice)
         const mainImageElement = document.querySelector('.background-img');
         if (mainImageElement) {
             mainImageElement.onload = () => {
                 console.log('Background image loaded successfully.');
-                // You could potentially refine button position here if needed,
-                // but percentage-based positioning should adapt.
             };
-            // The onerror is handled inline in the img tag now.
+        }
+
+        const detailImageElement = document.getElementById('somabayDetailImage');
+        if (detailImageElement) {
+            detailImageElement.onload = () => {
+                console.log('Embedded detail image (IMG-12345.jpg) loaded successfully.');
+            };
         }
     </script>
 </body>
