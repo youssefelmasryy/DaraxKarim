@@ -32,80 +32,70 @@
         }
 
         /* This is the original transparent button over the RSVP area of the main image */
-        .image-rsvp-button {
-            position: absolute;
-            /* Adjust these as per your main image's RSVP location */
-            top: 87%;    
-            left: 35%;   
-            width: 30%;  
-            height: 5%; 
-            background-color: rgba(0, 0, 0, 0); 
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            z-index: 5; 
-            /* For debugging positioning: */
-            /* border: 1px dashed red;  */
-        }
+  .image-rsvp-button {
+    position: absolute;
+    top: 87%;
+    left: 35%;
+    width: 30%;
+    height: 5%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 5;
+  }
 
-        /* NEW: Styles for the embedded image (IMG-12345.jpg) */
-        #somabayDetailImage {
-            position: absolute;
-            /*
-            IMPORTANT: Adjust 'top', 'left', and 'width' to position this image
-            correctly below "Somabay, Egypt" on your main invitation image.
-            */
-            top: 21.5%; /* Estimated: Percentage from the top of the image-wrapper. Adjust this! */
-            left: 50%; /* Centers the image horizontally */
-            transform: translateX(-50%);
-            width: 30%; /* Estimated: Width relative to image-wrapper. Adjust this! */
-            max-width: 450px; /* Native max width of IMG-12345.jpg */
-            height: auto; /* Maintain aspect ratio */
-            cursor: pointer; /* Indicates it's clickable */
-            z-index: 6; /* Ensure it's above background, potentially same level as other button */
-        
-            /* For debugging positioning: */
-            /* border: 1px dashed blue; */
-        }
+  #somabayDetailImage {
+    position: absolute;
+    top: 21.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    max-width: 450px;
+    height: auto;
+    cursor: pointer;
+    z-index: 6;
+  }
 
-                /* NEW: Common style for custom on-image buttons */
-        .image-custom-button {
-            position: absolute;
-            background-color: #cf8a77;
-            color: black;
-            font-family: "STIX Two Text", serif;
-            padding: 6px 12px; /* Adjust padding for size */
-            border: 1px solid #a96a59;  /* Darker shade for frame */
-            border-radius: 4px; /* Rectangular with slightly rounded corners */
-            text-align: center;
-            font-size: 0.3rem; /* Adjust font size as needed */
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 7; /* Above other image elements, below main header */
-            /* For debugging positioning: */
-            /* border: 1px dashed green; */
-            white-space: nowrap;
-        }
+  .image-custom-button {
+    position: absolute;
+    background-color: #cf8a77;
+    color: black;
+    font-family: "STIX Two Text", serif;
+    padding: 8px 16px;
+    border: 1px solid #a96a59;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 7;
+    white-space: nowrap;
+  }
 
-        /* NEW: Specific positioning for Sobar Rooftop button */
-        #sobarButton {
-            /* IMPORTANT: Adjust top, left, width for precise placement */
-            top: 49%; /* Estimated: Percentage from the top. Adjust! */
-            left: 50%; /* Example: Center it. Adjust! */
-            transform: translateX(-50%);
-            width: auto; /* Let padding and content define width, or set a fixed/percentage width */
-            min-width: 100px; /* Example minimum width */
-        }
+  @media (min-width: 768px) {
+    .image-custom-button {
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+  }
 
-        /* NEW: Specific positioning for Dress Code button */
-        #dressCodeButton {
-            /* IMPORTANT: Adjust top, left, width for precise placement */
-            top: 75%; /* Estimated: Percentage from the top. Adjust! */
-            left: 50%; /* Example: Center it. Adjust! */
-            transform: translateX(-50%);
-            width: auto; /* Let padding and content define width, or set a fixed/percentage width */
-            min-width: 100px; /* Example minimum width */
-        }
+  #sobarButton {
+    top: 49%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    min-width: 100px;
+  }
+
+  #dressCodeButton {
+    top: 75%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    min-width: 100px;
+  }
+
         
         .content { /* This is for the header buttons, positioned over the top of the image-wrapper */
             position: absolute;
